@@ -1,12 +1,15 @@
 extern crate font;
-use iced::{Button, Element, Sandbox, Settings, Text, button, Column, Align};
+use iced::{Button, Element, Sandbox, Settings, Text, button, Column, Align, Font as Font1};
 
 pub fn main()-> iced::Result{
     Font::run(Settings::default())
+    
+    
 }
 #[derive(Debug,Default)]
 pub struct Font{
     btn:button::State,
+    font: Font1
 }
 #[derive(Debug,Clone, Copy)]
 pub enum FontMessage{
@@ -17,7 +20,9 @@ impl Sandbox for Font {
     type Message = FontMessage;    
 
     fn new() -> Self {
-        Self::default()
+        
+            Self::default()
+        
         
     }
 
@@ -29,6 +34,7 @@ impl Sandbox for Font {
         match message {
             FontMessage::BtnClicked => {
                 println!("clicked");
+                self.font = FONT;
             }
         }
         // This application has no interactions
@@ -41,7 +47,7 @@ impl Sandbox for Font {
             .align_items(Align::Center)
             .spacing(20)
             .push(
-                Text::new("Font will change when you click button").size(24)
+                Text::new("Font will change when you click button").font(self.font).size(24)
             )
             .push(
                 Button::new(&mut self.btn, Text::new("Click Me"))
@@ -51,3 +57,7 @@ impl Sandbox for Font {
             .into()
     }
 }
+const FONT : Font1 =  Font1::External {
+    name: "Simple font",
+    bytes: include_bytes!("./hack.ttf")
+}; 
